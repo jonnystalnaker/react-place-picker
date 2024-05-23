@@ -60,7 +60,7 @@ function App() {
 		setPickedPlaces(prevPickedPlaces =>
 			prevPickedPlaces.filter(place => place.id !== selectedPlace.current)
 		);
-		setModalIsOpen(true);
+		setModalIsOpen(false);
 		const storedIDs = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
 		localStorage.setItem(
 			'selectedPlaces',
@@ -70,7 +70,10 @@ function App() {
 
 	return (
 		<>
-			<Modal open={modalIsOpen}>
+			<Modal
+				open={modalIsOpen}
+				onClose={handleStopRemovePlace}
+			>
 				<DeleteConfirmation
 					onCancel={handleStopRemovePlace}
 					onConfirm={handleRemovePlace}
