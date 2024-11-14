@@ -6,18 +6,19 @@ export default function AvailablePlaces({ onSelectPlace }) {
 
 	useEffect(() => {
 		async function fetchPlaces() {
-			const response = fetch('http://localhost:3000/places');
+			const response = await fetch('http://localhost:3000/places');
 			const resData = await response.json();
 			setAvailablePlaces(resData.places);
 		}
 
 		fetchPlaces();
 	}, []);
-
 	return (
 		<Places
 			title="Available Places"
 			places={availablePlaces}
+			isLoading={false}
+			loadingText="Fetching palce data..."
 			fallbackText="No places available."
 			onSelectPlace={onSelectPlace}
 		/>
