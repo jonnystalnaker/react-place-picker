@@ -6,11 +6,11 @@ import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import ErrorPage from './components/Error.jsx';
 import Modal from './components/Modal.jsx';
 import Places from './components/Places.jsx';
-
 import { fetchUserPlaces, updateUserPlaces } from './http.js';
 
 function App() {
 	const selectedPlace = useRef();
+
 	const [userPlaces, setUserPlaces] = useState([]);
 	const [isFetching, setIsFetching] = useState(false);
 	const [error, setError] = useState();
@@ -26,8 +26,9 @@ function App() {
 				const userPlaces = await fetchUserPlaces();
 				setUserPlaces(userPlaces);
 			} catch (error) {
-				setError({ message: error.message || 'Failed to fetch user places' });
+				setError({ message: error.message || 'Failed to fetch user places.' });
 			}
+
 			setIsFetching(false);
 		}
 
@@ -44,6 +45,8 @@ function App() {
 	}
 
 	async function handleSelectPlace(selectedPlace) {
+		// await updateUserPlaces([selectedPlace, ...userPlaces]);
+
 		setUserPlaces(prevPickedPlaces => {
 			if (!prevPickedPlaces) {
 				prevPickedPlaces = [];
@@ -69,6 +72,7 @@ function App() {
 			setUserPlaces(prevPickedPlaces =>
 				prevPickedPlaces.filter(place => place.id !== selectedPlace.current.id)
 			);
+
 			try {
 				await updateUserPlaces(
 					userPlaces.filter(place => place.id !== selectedPlace.current.id)
@@ -76,7 +80,7 @@ function App() {
 			} catch (error) {
 				setUserPlaces(userPlaces);
 				setErrorUpdatingPlaces({
-					message: error.message || 'Failed to delete place',
+					message: error.message || 'Failed to delete place.',
 				});
 			}
 
@@ -97,12 +101,13 @@ function App() {
 			>
 				{errorUpdatingPlaces && (
 					<ErrorPage
-						title="An error occured!"
+						title="An error occurred!"
 						message={errorUpdatingPlaces.message}
 						onConfirm={handleError}
 					/>
 				)}
 			</Modal>
+
 			<Modal
 				open={modalIsOpen}
 				onClose={handleStopRemovePlace}
@@ -127,7 +132,7 @@ function App() {
 			<main>
 				{error && (
 					<ErrorPage
-						title="An error occured!"
+						title="An error occurred!"
 						message={error.message}
 					/>
 				)}
