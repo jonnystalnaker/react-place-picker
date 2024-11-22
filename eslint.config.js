@@ -1,6 +1,7 @@
 ﻿import pluginJs from '@eslint/js';
 import pluginReact from 'eslint-plugin-react';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
+import globals from 'globals';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -16,13 +17,8 @@ export default [
 				},
 			},
 			globals: {
-				// Define globals for both browser and Node.js
-				window: 'readonly',
-				document: 'readonly',
-				console: 'readonly',
-				process: 'readonly',
-				module: 'readonly',
-				require: 'readonly',
+				...globals.browser,
+				...globals.node,
 			},
 		},
 		plugins: {
@@ -30,14 +26,16 @@ export default [
 			'react-hooks': pluginReactHooks,
 		},
 		rules: {
-			'react/react-in-jsx-scope': 'off', // React 17+ JSX Transform
+			'react/react-in-jsx-scope': 'off',
+			'react/jsx-uses-react': 'off',
+			'react/jsx-uses-vars': 'error',
 			'react-hooks/rules-of-hooks': 'error',
 			'react-hooks/exhaustive-deps': 'warn',
-			'no-console': 'off', // Allow console statements
+			'no-console': 'off',
 		},
 		settings: {
 			react: {
-				version: 'detect', // Automatically detect React version
+				version: 'detect',
 			},
 		},
 	},

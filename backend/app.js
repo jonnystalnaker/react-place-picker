@@ -33,6 +33,7 @@ app.get('/places', async (req, res) => {
 		const userPlacesData = JSON.parse(fileContent);
 		res.status(200).json({ places: userPlacesData });
 	} catch (error) {
+		console.error('Error fetching places:', error);
 		res.status(500).json({ message: 'Failed to fetch places.' });
 	}
 });
@@ -44,6 +45,7 @@ app.get('/user-places', async (req, res) => {
 		const uniquePlaces = ensureUniquePlaces(userPlaces);
 		res.status(200).json({ places: uniquePlaces });
 	} catch (error) {
+		console.error('Error fetching user places:', error);
 		res.status(500).json({ message: 'Failed to fetch user places.' });
 	}
 });
@@ -58,6 +60,7 @@ app.put('/user-places', async (req, res) => {
 		}
 		const uniquePlaces = ensureUniquePlaces(updatedPlaces);
 		await fs.writeFile('./data/user-places.json', JSON.stringify(uniquePlaces));
+
 		res
 			.status(200)
 			.json({ message: 'User places updated!', places: uniquePlaces });
